@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  football_manager:
+    image: football_manager:latest
+    container_name: football_manager
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Maps container port 8080 to host port 8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/football_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=rootpassword
+    depends_on:
+      - mysql
+    networks:
+      - football_manager-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    ports:
+      - "33306:3306" # Maps container port 3306 to host port 33306
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: football_db
+      MYSQL_USER: football_user
+      MYSQL_PASSWORD: football_password
+    volumes:
+      - db_data:/var/lib/mysql # Persist database data
+    networks:
+      - football_manager-network
+
+networks:
+  football_manager-network:
+    driver: bridge
+
+volumes:
+  db_data:
