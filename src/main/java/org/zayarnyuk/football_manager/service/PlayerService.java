@@ -1,13 +1,12 @@
 package org.zayarnyuk.football_manager.service;
 
-import jakarta.annotation.PostConstruct;
+
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.zayarnyuk.football_manager.dto.PlayerDTO;
 import org.zayarnyuk.football_manager.entity.Player;
 import org.zayarnyuk.football_manager.repository.PlayerRepository;
+import org.zayarnyuk.football_manager.repository.TeamRepository;
 
 import java.util.List;
 
@@ -16,8 +15,7 @@ import java.util.List;
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerService.class);
+    private final TeamRepository teamRepository;
 
 
     public List<PlayerDTO> getAllPlayers() {
@@ -39,13 +37,19 @@ public class PlayerService {
         if (playerDto.getStartWorkDate() == null) {
             throw new IllegalArgumentException("Experience must be set");
         }
+        Player player = toEntity(playerDto);
+        return toDto(playerRepository.save(player));
+    }
+
+    private Player toEntity(PlayerDTO playerDto) {
         Player player = new Player();
         player.setPlayerName(playerDto.getPlayerName());
         player.setDateOfBirth(playerDto.getDateOfBirth());
         player.setStartWorkDate(playerDto.getStartWorkDate());
-        player = playerRepository.save(player);
-        playerDto.setPlayerId(player.getPlayerId());
-        return playerDto;
+        if (playerDto.getTeamId() != null) {
+            player.setTeam(teamRepository.findById(playerDto.getTeamId()).orElseThrow());
+        }
+        return player;
     }
 
     public PlayerDTO findPlayerById(Long id) {
@@ -79,11 +83,6 @@ public class PlayerService {
         return toDto(player);
     }
 
-    @PostConstruct
-    public void postConstruct() {
-        LOGGER.info("Bean created: {}", this.getClass().getName());
-
-    }
 
     public static PlayerDTO toDto(Player entity) {
        if (entity == null) {

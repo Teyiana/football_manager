@@ -2,10 +2,7 @@ package org.zayarnyuk.football_manager.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.zayarnyuk.football_manager.dto.PlayerDTO;
 import org.zayarnyuk.football_manager.dto.TeamDTO;
 import org.zayarnyuk.football_manager.entity.Player;
 import org.zayarnyuk.football_manager.entity.Team;
@@ -17,8 +14,6 @@ import java.util.List;
 @Service
 public class TeamService {
     private final TeamRepository teamRepository;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TeamRepository.class);
 
     public List<TeamDTO> getAllTeams() {
         List<Team> teams = teamRepository.findAll();
@@ -40,11 +35,8 @@ public class TeamService {
         if (teamDto.getTeamName() == null || teamDto.getTeamName().isEmpty()) {
             throw new IllegalArgumentException("Name must be set");
         }
-        Team team = new Team();
-        team.setTeamName(teamDto.getTeamName());
-        team = teamRepository.save(team);
-        teamDto.setId(team.getId());
-        return teamDto;
+        Team entity = toEntity(teamDto);
+        return toDto(teamRepository.save(entity));
     }
 
     public void deleteTeamById(Long id) {
@@ -54,25 +46,17 @@ public class TeamService {
     }
 
     public TeamDTO update(TeamDTO teamDto) {
-        if (teamDto.getId() <= 0) {
-            throw new IllegalArgumentException("Id must be set");
+        Team team = teamRepository.findById(teamDto.getId()).orElseThrow(() -> new IllegalArgumentException("Team not found, id: " + teamDto.getId()));
+        if (teamDto.getTeamName() != null) {
+            team.setTeamName(teamDto.getTeamName());
         }
-        if (teamDto.getTeamName() == null || teamDto.getTeamName().isEmpty()) {
-            throw new IllegalArgumentException("Name must be set");
+        if (teamDto.getBalance() != null) {
+            team.setBalance(teamDto.getBalance());
         }
-        Team team = new Team();
-        team.setId(teamDto.getId());
-        team.setTeamName(teamDto.getTeamName());
-        team = teamRepository.save(team);
-        return toDto(team);
-    }
-
-
-    public boolean existsById(long teamId) {
-        if (teamId <= 0) {
-            throw new IllegalArgumentException("Id is not valid: id=" + teamId);
+        if (teamDto.getCommissionRate() > 0) {
+            team.setCommissionRate(teamDto.getCommissionRate());
         }
-        return teamRepository.existsById(teamId);
+        return toDto(teamRepository.save(team));
     }
 
     public static TeamDTO toDto(Team entity) {
@@ -90,5 +74,14 @@ public class TeamService {
         dto.setCommissionRate(entity.getCommissionRate());
 
         return dto;
+    }
+
+    private Team toEntity(TeamDTO teamDto) {
+        Team entity = new Team();
+        entity.setId(teamDto.getId());
+        entity.setTeamName(teamDto.getTeamName());
+        entity.setBalance(teamDto.getBalance());
+        entity.setCommissionRate(teamDto.getCommissionRate());
+        return entity;
     }
 }

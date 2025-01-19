@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "521b6878-9939-45a0-b3a3-0a2ea62548ec",
+		"name": "footbalManager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "37085037"
+	},
+	"item": [
+		{
+			"name": "get all players",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_user",
+						"username": "test_user"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/players/readAll"
+			},
+			"response": []
+		},
+		{
+			"name": "get all teams",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_user",
+						"username": "test_user"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/teams/readAll"
+			},
+			"response": []
+		},
+		{
+			"name": "create team",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_admin",
+						"username": "test_admin"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"teamName\": \"Karpaty Lviv\",\r\n    \"balance\": 100.00,\r\n    \"commissionRate\": 1.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/teams/create"
+			},
+			"response": []
+		},
+		{
+			"name": "create player",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_admin",
+						"username": "test_admin"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"playerName\": \"Mykola Plotnikov\",\r\n        \"teamId\": 4,\r\n        \"dateOfBirth\": \"1992-06-15\",\r\n        \"startWorkDate\": \"2025-01-19\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/players/create"
+			},
+			"response": []
+		},
+		{
+			"name": "get team",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_manager",
+						"username": "test_manager"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/teams/read/4"
+			},
+			"response": []
+		},
+		{
+			"name": "transfer player",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_manager",
+						"username": "test_manager"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"playerId\": 3,\r\n    \"teamId\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/manager/transfer"
+			},
+			"response": []
+		},
+		{
+			"name": "delete player",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_admin",
+						"username": "test_admin"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"playerId\": 14,\r\n        \"playerName\": \"Sadio Mané\",\r\n        \"teamId\": 1,\r\n        \"dateOfBirth\": \"1992-04-10\",\r\n        \"startWorkDate\": \"2022-07-01\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/players/delete/14"
+			},
+			"response": []
+		},
+		{
+			"name": "delete team",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_admin",
+						"username": "test_admin"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"teamName\": \"Manchester United\",\r\n        \"balance\": 200000000.00,\r\n        \"commissionRate\": 6.5\r\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/teams/delete/2"
+			},
+			"response": []
+		},
+		{
+			"name": "edit player",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_manager",
+						"username": "test_manager"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"playerId\": 1,\r\n    \"startWorkDate\": \"2022-07-22\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/players/edit"
+			},
+			"response": []
+		},
+		{
+			"name": "edit team",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_manager",
+						"username": "test_manager"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"commissionRate\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/teams/edit"
+			},
+			"response": []
+		},
+		{
+			"name": "register user",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"mykola\",\r\n    \"password\": \"mykola123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/auth/register"
+			},
+			"response": []
+		},
+		{
+			"name": "change user role",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "test_admin",
+						"username": "test_admin"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 4,\r\n    \"role\": \"MANAGER\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/auth/changeRole"
+			},
+			"response": []
+		}
+	]
+}

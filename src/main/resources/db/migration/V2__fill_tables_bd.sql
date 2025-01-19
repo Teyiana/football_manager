@@ -52,6 +52,12 @@ VALUES
     ('Viktor Tsyhankov', '1997-11-15', '2016-01-01'),
     ('Roman Yaremchuk', '1995-11-27', '2014-01-01');
 
+INSERT INTO users(user_name, password, role)
+VALUES
+    ('test_admin', '$2a$10$sa5yPM6H7LvEZvepFRAwPeQ2cJCnJBFuSDAfEi6HREKWZFv7FNJji', 'ADMIN'),
+    ('test_manager', '$2a$10$x3kOwFbmMJQbXifAa8vXO.GddWLCVxRI9YkiKIqCmMaDsiSPWGctu', 'MANAGER'),
+    ('test_user', '$2a$10$npu00DRAxFNSIGY4iyoZteK/KUlQliA8.NJMYX3W9iFxIYWvR501K', 'USER');
+
 
 
 
